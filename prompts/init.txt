@@ -1,0 +1,39 @@
+The `mlx-swift-examples` repo provides a library called `LLM` and a tool call `llm-tool` that depends on that library. Both the library and the `llm-tool` provide features to load an LLM locally using mlx-swift, then prompt the loaded LLM to generate text.
+
+Convert the `llm-tool` from a command line tool to a library that can be called from other swift code to perform the same features.
+
+Ensure the converted tool uses the `LLM` library to generate text from a loaded LLM. The `LLM` library is included in `mlx-swift-examples` repo under path `https://github.com/ml-explore/mlx-swift-examples/tree/main/Libraries/LLM`.
+
+Specifically,
+- The ability to load an LLM either by downloading from hugging-face or locally from the filesystem.
+- The ability to configure the following parameters:
+	- Maximum number of tokens to generate (`maxTokens`)
+	- The sampling temperature (`temperature`)
+	- The top p sampling (`topP`)
+	- The penalty factor for repeating tokens (`repetitionPenalty`)
+	- The number of tokens to consider for repetition penalty (`repetitionContextSize`)
+	- The PRNG seed (`seed`), End of sequence token for tokenizer (`eos-token`)
+	- The path to the local model directory or Hugging Face repo (`model`)
+- The ability to generate text given a specific prompt using the machinery from the `LLM` library as highlighted in: https://raw.githubusercontent.com/ml-explore/mlx-swift-examples/main/Tools/llm-tool/LLMTool.swift
+- All dependencies should be declared in a `Package.swift` file in the project's root directory.
+- The main code should be added to the `Sources/llm-local` directory, create if it doesn't exist.
+
+After converting `llm-tool`, generate a code example that uses the new swift library,
+- It is directly executable from the command line.
+- It should load the `Phi-3-mini-128` model.
+- It should prompt the model with: `Explain the Go programming language in 250 chars`
+- The generated text should be viewable in STDOUT.
+
+Faithfulness to original `llm-tool`:
+The conversion should stay faithful to the original code, ensuring no bugs are introduced.
+
+Stay performant:
+The converted library should optimise for performance and not introduce code that may slow down text generation.
+
+Conventions:
+- The package name should be created as snake case, e.g. llm-local
+- Ensure you adhere to the Swift API design guidelines.
+
+Generate code that is complies with: Apple Swift version 5.10
+
+Finally, provide instructions as inline comments on how to run the code example.

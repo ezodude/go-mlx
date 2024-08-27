@@ -1,0 +1,28 @@
+Walk through the errors below one by one and diagnose the root cause.
+
+Then, create a plan to resolve each error and warning for a successful build.
+
+ENSURE that original correct code is not suddenly replaced by this: "// ... existing code ..."
+
+/path/to/go-mlx/Sources/LLMLocal/LLMLocal.swift:83:28: warning: result of call to 'perform' is unused
+            modelContainer.perform { [configuration] model, tokenizer in
+                           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/path/to/go-mlx/Sources/LLMLocal/LLMLocal.swift:83:28: error: call to actor-isolated instance method 'perform' in a synchronous nonisolated context
+            modelContainer.perform { [configuration] model, tokenizer in
+                           ^
+/path/to/go-mlx/Libraries/LLM/LLMModel.swift:42:17: note: calls to instance method 'perform' from outside of its actor context are implicitly asynchronous
+    public func perform<R>(_ action: @Sendable (LLMModel, Tokenizer) throws -> R) rethrows -> R {
+                ^
+/path/to/go-mlx/Sources/LLMLocal/LLMLocal.swift:92:43: error: reference to captured var 'generatedText' in concurrently-executing code
+                    if fullOutput.count > generatedText.count {
+                                          ^
+/path/to/go-mlx/Sources/LLMLocal/LLMLocal.swift:93:60: error: reference to captured var 'generatedText' in concurrently-executing code
+                        let newText = fullOutput.dropFirst(generatedText.count)
+                                                           ^
+/path/to/go-mlx/Sources/LLMLocal/LLMLocal.swift:94:25: error: mutation of captured var 'generatedText' in concurrently-executing code
+                        generatedText += newText
+                        ^
+/path/to/go-mlx/Sources/LLMLocal/LLMLocal.swift:98:56: error: reference to captured var 'generatedText' in concurrently-executing code
+                        continuation.resume(returning: generatedText)
+                                                       ^
+error: fatalError
